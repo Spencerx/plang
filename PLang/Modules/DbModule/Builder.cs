@@ -1305,7 +1305,10 @@ Reason:{error.Message}", step,
 		(var createdDataSource, var rError) = await dbSettings.CreateOrUpdateDataSource(dataSourceName, dbTypeParam, setAsDefaultForApp.Value, keepHistoryEventSourcing.Value);
 		if (rError != null) return (instruction, new StepBuilderError(rError, step, false));
 
-		createdDataSource = createdDataSource with { ConnectionString = dataSource.ConnectionString };
+		if (dataSource != null)
+		{
+			createdDataSource = createdDataSource with { ConnectionString = dataSource.ConnectionString };
+		}
 		createdDataSource.NameInStep = dataSourceName;
 		step.Goal.DataSourceName = createdDataSource.Name;
 
